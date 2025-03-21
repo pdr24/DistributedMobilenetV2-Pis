@@ -77,7 +77,7 @@ def main():
 
     # load test image (from NFS)
     print("loading test image")
-    test_image_path = "~/datasets/mobilenet_test/bird_imagenettest.jpeg"  # change path as needed
+    test_image_path = "/home/cc/datasets/mobilenet_test/bird_imagenettest.jpeg"  # change path as needed
     input_image = load_image(test_image_path)
     input_image = input_image.to(device)
 
