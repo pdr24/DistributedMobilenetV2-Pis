@@ -75,7 +75,7 @@ def main():
     init_distributed()
 
     # load test image (from NFS)
-    test_image_path = "/mnt/nfs/test_images/sample.jpg"  # change path as needed
+    test_image_path = "~/datasets/mobilenet_test/bird_imagenettest.jpeg"  # change path as needed
     input_image = load_image(test_image_path)
     input_image = input_image.to(device)
 
