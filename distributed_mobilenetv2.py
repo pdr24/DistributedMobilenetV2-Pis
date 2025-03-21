@@ -72,9 +72,11 @@ def load_image(image_path):
     return img_tensor
 
 def main():
+    print("entering main()")
     init_distributed()
 
     # load test image (from NFS)
+    print("loading test image")
     test_image_path = "~/datasets/mobilenet_test/bird_imagenettest.jpeg"  # change path as needed
     input_image = load_image(test_image_path)
     input_image = input_image.to(device)
@@ -87,13 +89,16 @@ def main():
         return torch.tensor(0.0, requires_grad=True)
 
     # setup ScheduleGPipe
+    print("setting up ScheduleGPipe")
     schedule = ScheduleGPipe(stage, n_microbatches=1, loss_fn=dummy_loss_fn)
 
     if rank == 0:
         # stage 0: send input
+        print("we're in rank 0")
         schedule.step(input_image)
     elif rank == 1:
         # stage 1: receive final output
+        print("we're in rank 1")
         outputs = schedule.step()
         predicted_class = torch.argmax(outputs[0], dim=1).item()
         print(f"Predicted class index: {predicted_class}")
