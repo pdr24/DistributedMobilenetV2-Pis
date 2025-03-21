@@ -5,6 +5,10 @@ import torch.distributed as dist
 from torchvision import models, transforms
 from PIL import Image
 from torch.distributed.pipelining import ScheduleGPipe, PipelineStage
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 
 print(">>> Script has started parsing!") # for testing purposes 
