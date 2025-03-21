@@ -6,6 +6,9 @@ from torchvision import models, transforms
 from PIL import Image
 from torch.distributed.pipelining import ScheduleGPipe, PipelineStage
 
+
+print(">>> Script has started parsing!") # for testing purposes 
+
 # define global variables for pipeline setup
 global rank, device, pp_group, stage_index, num_stages
 
