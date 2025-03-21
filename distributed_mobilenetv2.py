@@ -26,14 +26,28 @@ def init_distributed():
     stage_index = rank
     num_stages = world_size
 
-    # set device
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    # initialize default process group
-    dist.init_process_group(backend='gloo')
+    # Secure and flexible initialization
+    master_addr = os.environ.get("MASTER_ADDR")
+    master_port = os.environ.get("MASTER_PORT")
 
-    # create pipeline parallelism group (just the default group for now)
+    if master_addr and master_port:
+        init_method = f"tcp://{master_addr}:{master_port}"
+        print(f"[Rank {rank}] Initializing with TCP init method at {init_method}")
+    else:
+        init_method = "env://"
+        print(f"[Rank {rank}] Initializing with default env://")
+
+    dist.init_process_group(
+        backend='gloo',
+        init_method=init_method,
+        rank=rank,
+        world_size=world_size
+    )
+
     pp_group = dist.new_group()
+
 
 def split_mobilenet_v2():
     """
